@@ -1,0 +1,46 @@
+#!/bin/bash
+
+config=".staging.config.js"
+
+if [ $# -eq 0 ]
+    then
+	echo "no arguments were supplied"
+	echo "currently available argument options are:"
+	echo "---"
+	echo "dry - runs with --dryrun"
+        echo "serve - runs with --serve"
+	echo "watch - runs with --watch"
+	echo "once - runs with given config, no other options and exits"
+	echo "---"	
+	echo "now, running default command with --dryrun"
+	echo ""
+        eleventy --config=${config} --dryrun && exit
+fi
+
+# passing arguments to bash scripts
+# https://www.lifewire.com/pass-arguments-to-bash-script-2200571
+# if you get this ^, write code to get value of pathprefix from
+# command line. until then, poor man set it on top ^^^
+
+
+case $1 in
+    "dry")
+        eleventy --config=${config} --dryrun ${2}
+    ;;
+
+    "serve")
+        eleventy --config=${config} --serve ${2}
+    ;;
+
+    "watch")
+        eleventy --config=${config} --watch ${2}
+    ;;
+    "once")
+	echo "running once with parameters -> config=${config}, ${2}"
+	eleventy --config=${config} ${2}
+    ;;
+    *)
+	echo "${1} does not match any known commands to this script"
+	echo "exiting"
+esac
+
